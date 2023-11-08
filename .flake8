@@ -6,4 +6,3 @@ exclude =
     .git,
     venv,
     __pycache__
-    migrations
