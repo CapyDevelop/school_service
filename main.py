@@ -2,9 +2,9 @@ import os
 from concurrent import futures
 
 import grpc
+import school_service.school_service_pb2_grpc as school_pb2_grpc
 from dotenv import load_dotenv
 
-import school_service.school_service_pb2_grpc as school_pb2_grpc
 from school_handler import SchoolService
 
 load_dotenv()
