@@ -177,4 +177,3 @@ def get_coalition(access_token, school_user_id):
     }
     response = session.post("https://edu.21-school.ru/services/graphql", headers=headers, json=data)
     return response.json()["data"]["student"]["getUserTournamentWidget"]["coalitionMember"]["coalition"]["name"]
-

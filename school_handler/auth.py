@@ -1,7 +1,7 @@
-import uuid
 import re
-import requests
+import uuid
 
+import requests
 
 login_action_pattern = re.compile(r'(?P<LoginActionURL>https://.+?)"')
 oauth_code_pattern = re.compile(r'code=(?P<OAuthCode>[^&$]+)[&$]?')
@@ -54,5 +54,5 @@ def get_auth_info(login, password):
 
     if response.status_code != 200:
         return None
-
+    print(response.json()["access_token"])
     return response
