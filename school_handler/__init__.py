@@ -11,6 +11,7 @@ logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - '
                            '%(levelname)s - %(message)s')
 
+
 class SchoolService(school_pb2_grpc.SchoolServiceServicer):
     def get_school_info(self, request, context):
         logging.info("[ GET SCHOOL INFO ] - Get school info request. ----- START -----")
