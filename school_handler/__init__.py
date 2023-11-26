@@ -4,12 +4,12 @@ import school_service.school_service_pb2 as school_pb2
 import school_service.school_service_pb2_grpc as school_pb2_grpc
 
 from .auth import get_auth_info
-from .gql import get_coalition, get_coins_and_rp, get_user_info
+from .gql import get_coalition, get_coins_and_rp, get_user_info, \
+    get_users_from_coalition
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - '
                            '%(levelname)s - %(message)s')
-
 
 class SchoolService(school_pb2_grpc.SchoolServiceServicer):
     def get_school_info(self, request, context):
@@ -49,3 +49,20 @@ class SchoolService(school_pb2_grpc.SchoolServiceServicer):
             last_name=user_info["data"]["user"]["getCurrentUser"]["lastName"],
             login=user_info["data"]["user"]["getCurrentUser"]["login"]
         )
+
+    def get_all_members_from_platform(self, request, context):
+        logging.info("[ GET ALL MEMBERS FROM PLATFORM ] - Get all members from platform request. ----- START -----")
+        tmp_counter = 0
+        result = []
+        all_users = get_users_from_coalition(request.access_token, request.offset, request.limit)
+        if not all_users:
+            logging.info("[ GET ALL MEMBERS FROM PLATFORM ] - Not such info. ----- END -----")
+            return school_pb2.GetAllMembersFromPlatformResponse(status=1, description="Failure request to platform")
+
+        tmp_counter += len(all_users)
+        for user in all_users:
+            # logging.info("[ GET ALL MEMBERS FROM PLATFORM ] - Success get user from platform. ----- END -----")
+            result.append(school_pb2.Member(login=user["user"]["login"], school_user_id=user["user"]["id"]))
+        print("COUNT: ", tmp_counter)
+        logging.info("[ GET ALL MEMBERS FROM PLATFORM ] - Success get coalition from s21. ----- END -----")
+        return school_pb2.GetAllMembersFromPlatformResponse(members=result, status=0, description="Success")

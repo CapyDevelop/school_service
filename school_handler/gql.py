@@ -177,3 +177,51 @@ def get_coalition(access_token, school_user_id):
     }
     response = session.post("https://edu.21-school.ru/services/graphql", headers=headers, json=data)
     return response.json()["data"]["student"]["getUserTournamentWidget"]["coalitionMember"]["coalition"]["name"]
+
+
+def get_users_from_coalition(access_token, offset, limit):
+    session = requests.Session()
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "schoolid": "6bfe3c56-0211-4fe1-9e59-51616caac4dd",
+        "Content-Type": "application/json",
+        "cookie": f"tokenid={access_token}"
+    }
+    data = {
+        "operationName": "competitionCoalitionGetMyCoalitionMembers",
+        "query": """query competitionCoalitionGetMyCoalitionMembers($page: PagingInput) {
+  student {
+    getUserTournamentWidget {
+      getMyCoalitionMembers(page: $page) {
+        user {
+          id
+          login
+          avatarUrl
+          userExperience {
+            level {
+              id
+              levelCode
+              __typename
+            }
+            __typename
+          }
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
+}
+""",
+        "variables": {
+            "page": {
+                "limit": limit,
+                "offset": offset,
+            }
+        }
+    }
+    response = session.post("https://edu.21-school.ru/services/graphql", headers=headers, json=data)
+    print(response)
+    return response.json()["data"]["student"]["getUserTournamentWidget"]["getMyCoalitionMembers"]
