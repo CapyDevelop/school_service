@@ -23,7 +23,7 @@ jobs:
       - name: Install Dependencies
         run: |
           pip install flake8
-          pip install isort
+          pip install isort==5.12.0
 
       - name: Run flake8
         run: flake8 .

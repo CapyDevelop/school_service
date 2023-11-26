@@ -4,8 +4,8 @@ import school_service.school_service_pb2 as school_pb2
 import school_service.school_service_pb2_grpc as school_pb2_grpc
 
 from .auth import get_auth_info
-from .gql import get_coalition, get_coins_and_rp, get_user_info, \
-    get_users_from_coalition
+from .gql import (get_coalition, get_coins_and_rp, get_user_info,
+                  get_users_from_coalition)
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - '
